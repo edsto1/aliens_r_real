@@ -1,53 +1,56 @@
 // from data.js
 var tableData = data;
-console.log(data.length);
 
-//create variable to hold selected tag
-var tbody = d3.select("tbody")
+// Select the table body
+var tbody = d3.select("tbody");
 
-//loop through each object in the list
-data.forEach(function(UFOsighting) {
+// Check to see if Data is showing up and linked properly
+console.log(tableData);
+
+// Looping through the data and appending it to website
+data.forEach((ufoSighting) => {
+    console.log(ufoSighting);
     var row = tbody.append("tr");
-    Object.entries(UFOReport).forEach(function([key, value]) {
-        //console.log(key, value);
-        // Append a cell to the row for each value
-        // in the weather report object
+    Object.entries(ufoSighting).forEach(([key, value]) => {
+        console.log(key,value);
         var cell = row.append("td");
         cell.text(value);
-      });
     });
-   
-   
-    //select the submit button
-   
-     var submit=d3.select("#filter-btn");
-     submit.on("click", function() {
-         //prevent the page from refreshing
-         d3.event.preventDefault();
-        //select the input element and get raw HTML node
-        var inputElement =d3.select("#datetime");
-        //get value property of the input element
-        var inputValue=inputElement.property("value");
-        console.log(inputValue);
-        //console.log(data);
-       
-        var filteredUFOData=data.filter(entry => entry.datetime === inputValue);
-        //console.log(filteredUFOData);
-   
-        filteredUFOData.forEach(function(filteredtableentries){
-           //console.log(UFOReport);
-           row = tbody.append("tr");
-           Object.entries(filteredtableentries).forEach(function([key, value]) {
-               console.log(key, value);
-               // Append a cell to the row for each value
-               // in the weather report object
-           cell = row.append("td");
-           cell.text(value);
-        })
-        })
-   
-   
-       
-   
-   
-     })
+});
+
+// Selecting the filter button
+var filterBtn = d3.select("#filter-btn");
+
+// Creating a function for filter button to filter desired date
+filterBtn.on("click", function() {
+    
+    // Clearing the data in the table so it only shows the desired filter data
+    
+    document.getElementById("clear-data").innerHTML = "";
+
+    // Preventing the page from refreshing
+    d3.event.preventDefault();
+
+    // Selecting the input element and get the raw HTML node
+    var inputElement = d3.select("#datetime");
+
+    // Getting the value property of the input element
+    var inputValue = inputElement.property("value");
+
+    console.log(inputValue);
+    console.log(tableData);
+
+    var filteredData = tableData.filter(ufoDate => ufoDate.datetime === inputValue);
+
+    console.log(filteredData);
+
+    // Creating a loop so filtered date shows
+    filteredData.forEach((date) => {
+        var row = tbody.append("tr");
+        Object.entries(date).forEach(([key, value]) => {
+            console.log(key,value);
+            var cell = row.append("td");
+            cell.text(value);
+        });
+    });
+});
